@@ -19,7 +19,7 @@ namespace Photify.Uploader
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             [Blob("photify-photos", FileAccess.ReadWrite, Connection = Literals.StorageConnectionString)] BlobContainerClient blobContainer,
-            [CosmosDB("photify-photos", "metadata", Connection = Literals.CosmosDBConnectionString, CreateIfNotExists =true, PartitionKey = "/name")] IAsyncCollector<dynamic> items,
+            [CosmosDB("photify-photos", "metadata", Connection = Literals.CosmosDBConnectionString, CreateIfNotExists =true, PartitionKey = "/id")] IAsyncCollector<dynamic> items,
             ILogger logger)
         {
 
