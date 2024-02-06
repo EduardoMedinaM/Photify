@@ -13,11 +13,12 @@ namespace Photify.Uploader
         [FunctionName(nameof(ResizerFunction))]
         public async Task Run(
             [BlobTrigger("photify-photos/{name}", Connection = Literals.StorageConnectionString)]Stream currentBlob,
+            string name,
             [Blob("photify-photos-small/{name}", FileAccess.Write, Connection = Literals.StorageConnectionString)] Stream imageSmall,
             [Blob("photify-photos-medium/{name}", FileAccess.Write, Connection = Literals.StorageConnectionString)] Stream imageMedium,
             ILogger logger)
         {
-            logger?.LogInformation("Resizing image...");
+            logger?.LogInformation("Resizing image...", name);
 
             try
             {
