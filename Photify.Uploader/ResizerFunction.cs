@@ -18,7 +18,7 @@ namespace Photify.Uploader
             [Blob("photify-photos-medium/{name}", FileAccess.Write, Connection = Literals.StorageConnectionString)] Stream imageMedium,
             ILogger logger)
         {
-            logger?.LogInformation("Resizing image...", name);
+            logger?.LogInformation($"Resizing image {name}");
 
             try
             {

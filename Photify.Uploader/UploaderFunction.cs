@@ -19,7 +19,7 @@ namespace Photify.Uploader
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             [Blob("photify-photos", FileAccess.ReadWrite, Connection = Literals.StorageConnectionString)] BlobContainerClient blobContainer,
-            [CosmosDB("photify-photos", "metadata", Connection = Literals.CosmosDBConnectionString, CreateIfNotExists =true, PartitionKey = "/id")] IAsyncCollector<dynamic> items,
+            [CosmosDB("photify-photos", "metadata", Connection = Literals.CosmosDBConnectionString, CreateIfNotExists = true, PartitionKey = "/id")] IAsyncCollector<dynamic> photos,
             ILogger logger)
         {
 
@@ -37,7 +37,7 @@ namespace Photify.Uploader
 
             await cloudBlockBlob.UploadAsync(new BinaryData(photoBytes));
 
-            var item = new
+            var newPhoto = new
             {
                 id = newPhotoId,
                 name = dto.Name,
@@ -45,9 +45,9 @@ namespace Photify.Uploader
                 tags = dto.Tags
             };
 
-            await items.AddAsync(item);
+            await photos.AddAsync(newPhoto);
 
-            logger?.LogInformation($"Photo successfully uploaded and its metadata", newPhotoId);
+            logger?.LogInformation($"Photo successfully uploaded with metadata {newPhotoId}");
 
             return new OkObjectResult(newPhotoId);
         }
