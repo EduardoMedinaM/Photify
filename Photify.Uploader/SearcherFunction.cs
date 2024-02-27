@@ -14,7 +14,7 @@ namespace Photify.Uploader
 {
     public static class SearcherFunction
     {
-        [FunctionName("SearcherFunction")]
+        [FunctionName(nameof(SearcherFunction))]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             [CosmosDB("photify-photos", "metadata", Connection = Literals.CosmosDBConnectionString)] CosmosClient cosmosClient,
